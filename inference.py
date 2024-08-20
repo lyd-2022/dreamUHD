@@ -6,8 +6,7 @@ from tqdm import tqdm
 import torch
 from yaml import load
 import sys
-sys.path.append('/home/zhuqi/lyd/UHDformer-main')
-sys.path.append('/home/zhuqi/lyd/UHDformer-main/basicsr')
+
 
 from basicsr.utils import img2tensor, tensor2img, imwrite
 from basicsr.archs.femasr_arch import FeMaSRNet
@@ -173,37 +172,19 @@ def main():
     """Inference demo for FeMaSR
     """
     parser = argparse.ArgumentParser()
-    # parser.add_argument('-i', '--input', type=str, default='/data_8T1/wangcong/dataset/Rain13K/rain13ktest/Rain100H/input',
-    #                     help='Input image or folder')
-    # parser.add_argument('-g', '--gt', type=str, default='/data_8T1/wangcong/dataset/Rain13K/rain13ktest/Rain100H/target',
-    #                     help='groundtruth image')
-    # parser.add_argument('-i', '--input', type=str,
-    #                     default='/data_8T1/wangcong/dataset/real-world-images/real-input',
-    #                     help='Input image or folder')
-    # parser.add_argument('-g', '--gt', type=str,
-    #                     default='/data_8T1/wangcong/dataset/real-world-images/real-input',
-    #                     help='groundtruth image')
+
     parser.add_argument('-i', '--input', type=str,
-                        default='/data/liuyidi/nitre_2023_dehaze/data_dehaze/UHD_LL/testing_set/input',
+                        default='',
                         help='Input image or folder')
     parser.add_argument('-g', '--gt', type=str,
-                        default='/data/liuyidi/nitre_2023_dehaze/data_dehaze/UHD_LL/testing_set/gt',
+                        default='',
                         help='groundtruth image')
-    # parser.add_argument('-i', '--input', type=str,
-    #                     default='/data_8T1/wangcong/dataset/LOLdataset/eval15/low',
-    #                     help='Input image or folder')
-    # parser.add_argument('-g', '--gt', type=str,
-    #                     default='/data_8T1/wangcong/dataset/LOLdataset/eval15/high',
-    #                     help='groundtruth image')
-    # parser.add_argument('-w_vqgan', '--weight_vqgan', type=str,
-    #                     default='/data_8T1/wangcong/net_g_260000.pth',
-    #                     help='path for model weights')
     parser.add_argument('-w', '--weight', type=str,
-                        default='/home/zhuqi/lyd/UHDformer-main/experiments/SAF_adapter_kl8/models/net_g_latest.pth',
+                        default='',
                         help='path for model weights')
-    parser.add_argument('-o', '--output', type=str, default='/home/zhuqi/lyd/UHDformer-main/experiments/SAF_adapter_kl8/result/latest', help='Output folder')
+    parser.add_argument('-o', '--output', type=str, default='', help='Output folder')
     parser.add_argument('-s', '--out_scale', type=int, default=1, help='The final upsampling scale of the image')
-    parser.add_argument('-c', '--config', type=str,default='/code/UHDformer-main/options/adapter/dwt_kl8.yml', help='path to the config file')
+    parser.add_argument('-c', '--config', type=str,default='', help='path to the config file')
     parser.add_argument('--suffix', type=str, default='', help='Suffix of the restored image')
     parser.add_argument('--max_size', type=int, default=600,
                         help='Max image size for whole image inference, otherwise use tiled_test')
