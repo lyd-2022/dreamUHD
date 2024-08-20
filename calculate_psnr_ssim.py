@@ -10,7 +10,7 @@ import os
 import argparse
 os.environ["CUDA_VISIBLE_DEVICES"]='0'
 parser = argparse.ArgumentParser(description='Calculate PSNR, SSIM, and LPIPS for image comparison.')
-parser.add_argument('--gt_path',default='/data/liuyidi/nitre_2023_dehaze/data_dehaze/UHD_LL/testing_set/gt', type=str, help='Path to the ground truth images.')
+parser.add_argument('--gt_path',default='', type=str, help='Path to the ground truth images.')
 parser.add_argument('--results_path', type=str, help='Path to the generated results images.')
 parser.add_argument('--step', type=int, default=0, help='step.')
 parser.add_argument('--test_log', type=str, default='/test.log', help='model.')
