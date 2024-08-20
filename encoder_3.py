@@ -5,7 +5,6 @@ import torch.nn as nn
 import numpy as np
 from einops import rearrange
 import sys
-sys.path.append('/code/UHDformer-main')
 import torch.nn.functional as F
 
 from basicsr.utils.vae_util import instantiate_from_config
