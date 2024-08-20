@@ -58,13 +58,10 @@ def psnr_gray(imgA, imgB, gray_scale=True):
 
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 def equalize_hist_color(img):
-    # 使用 cv2.split() 分割 BGR 图像
     channels = cv2.split(img)
     eq_channels = []
-    # 将 cv2.equalizeHist() 函数应用于每个通道
     for ch in channels:
         eq_channels.append(cv2.equalizeHist(ch))
-    # 使用 cv2.merge() 合并所有结果通道
     eq_image = cv2.merge(eq_channels)
     return eq_image
 
