@@ -71,55 +71,11 @@ def make_res(in_channels, out_channels,temb_channels,dropout, res_type="vanilla"
                                          dropout=dropout)
     elif res_type == "Fourmer":
         return ProcessBlock(in_channels,out_channels)
-    elif res_type == "Res_four":
-        return Res_four(in_channels=in_channels,
-                                         out_channels=out_channels,
-                                         dropout=dropout)
-    elif res_type == "Res_four2":
-        return Res_four2(in_channels=in_channels,
-                                         out_channels=out_channels,
-                                         dropout=dropout)
-    elif res_type == "Res_four3":
-        return Res_four3(in_channels=in_channels,
-                                         out_channels=out_channels,
-                                         dropout=dropout)
-    elif res_type == "Res_four4":
-        return Res_four4(in_channels=in_channels,
-                                         out_channels=out_channels,
-                                         dropout=dropout)
-    elif res_type == "Res_four5":
-        return Res_four5(in_channels=in_channels,
-                                         out_channels=out_channels,
-                                         dropout=dropout)
-    elif res_type == "Res_four6":
-        return Res_four6(in_channels=in_channels,
-                                         out_channels=out_channels,
-                                         dropout=dropout)
-    elif res_type == "Res_four7":
-        return Res_four7(in_channels=in_channels,
-                                         out_channels=out_channels,
-                                         dropout=dropout)
-    elif res_type == "Res_four8":
-        return Res_four8(in_channels=in_channels,
-                                         out_channels=out_channels,
-                                         dropout=dropout)
     elif res_type == "Res_four9":
         return Res_four9(in_channels=in_channels,
                                          out_channels=out_channels,
                                          dropout=dropout)
 
-    elif res_type == "Res_four10":
-        return Res_four10(in_channels=in_channels,
-                                            out_channels=out_channels,
-                                            dropout=dropout)
-    elif res_type == "Res_four11":
-        return Res_four11(in_channels=in_channels,
-                                            out_channels=out_channels,
-                                            dropout=dropout)
-    elif res_type == "Res_four12":
-        return Res_four12(in_channels=in_channels,
-                                            out_channels=out_channels,
-                                            dropout=dropout)
     elif res_type == "MAB":
         return MAB(in_channels, out_channels)
 
