@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import sys 
-sys.path.append("/code/UHDformer-main")
 from basicsr.archs.VAE_arch import AutoencoderKL
 import time
 import yaml
