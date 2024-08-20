@@ -4,7 +4,6 @@ import torch.nn.functional as F
 from contextlib import contextmanager
 import torch.nn as nn
 import sys
-sys.path.append("/code/UHDformer-main")
 
 # from taming.modules.vqvae.quantize import VectorQuantizer2 as VectorQuantizer
 
