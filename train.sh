@@ -16,12 +16,12 @@
 # 定义Python命令的路径
 # export WANDB_API_KEY='16b1e63bc4552c39530cdb1fbcf31a36ec311def'
 
-PYTHON_PATH="python /fs-computility/ai4sData/liuyidi/code/DreamUHD"
+PYTHON_PATH="python /fs-computility/ai4sData/liuyidi/code/dreamUHD"
 
 
 
 # 定义配置文件、权重文件和输出目录的路径
-CONFIG_PATH="/fs-computility/ai4sData/liuyidi/code/DreamUHD/options/DreamUHD_LL.yml"
+CONFIG_PATH="/fs-computility/ai4sData/liuyidi/code/dreamUHD/options/VAE_LL.yml"
 
 COMMON_PATH="/fs-computility/ai4sData/liuyidi/code/DreamUHD/exp"
 

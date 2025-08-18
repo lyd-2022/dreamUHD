@@ -7,7 +7,7 @@ import os
 import shutil
 from os import path as osp
 import sys
-sys.path.append("/fs-computility/ai4sData/liuyidi/code/DreamUHD")
+sys.path.append("/fs-computility/ai4sData/liuyidi/code/dreamUHD")
 from basicsr.data import create_dataloader, create_dataset
 # from basicsr.data import build_dataloader, build_dataset
 from basicsr.data.data_sampler import EnlargedSampler
