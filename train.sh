@@ -21,7 +21,7 @@ PYTHON_PATH="python /fs-computility/ai4sData/liuyidi/code/dreamUHD"
 
 
 # 定义配置文件、权重文件和输出目录的路径
-CONFIG_PATH="/fs-computility/ai4sData/liuyidi/code/dreamUHD/options/VAE_LL.yml"
+CONFIG_PATH="/fs-computility/ai4sData/liuyidi/code/dreamUHD/options/DreamUHD_LL.yml"
 
 COMMON_PATH="/fs-computility/ai4sData/liuyidi/code/DreamUHD/exp"
 
@@ -30,7 +30,7 @@ WEIGHT_PATH="$COMMON_PATH/models/net_g_latest.pth"
 OUTPUT_PATH="$COMMON_PATH/result"
 
 # # 训练命令
-$PYTHON_PATH/basicsr/train.py -opt $CONFIG_PATH 
+$PYTHON_PATH/basicsr/train2.py -opt $CONFIG_PATH 
 # $PYTHON_PATH/basicsr/train_pgt.py -opt $CONFIG_PATH 
 
 # # # 推理命令

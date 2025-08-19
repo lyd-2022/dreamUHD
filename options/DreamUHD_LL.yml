@@ -1,7 +1,6 @@
 
-name: DreamUHD_LL
-# name: try
-# name: debug
+# name: DreamUHD_LL
+name: debug
 model_type: FeMaSRModel
 scale: &upscale 1
 num_gpu: 1 # set num_gpu: 0 for cpu mode
@@ -61,8 +60,8 @@ network_g:
   param_key: params_ema
   num_heads: 3
   out_dim: 64
-  vae_weight: /fs-computility/ai4sData/liuyidi/code/DreamUHD/weight/VAE_LL.pth
-  config: /fs-computility/ai4sData/liuyidi/code/DreamUHD/options/VAE_LL.yml
+  vae_weight: /fs-computility/ai4sData/liuyidi/code/dreamUHD/weight/VAE_LL.pth
+  config: /fs-computility/ai4sData/liuyidi/code/dreamUHD/options/VAE_LL.yml
   sample: True
   # vae_weight: ~
 

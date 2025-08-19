@@ -1,4 +1,4 @@
-# DreamUHD: Frequency Enhanced Variational Autoencoder for Ultra-High-Definition Image Restoration [AAAI 2025] 1
+# DreamUHD: Frequency Enhanced Variational Autoencoder for Ultra-High-Definition Image Restoration [AAAI 2025]
 
 This is the official PyTorch implementation for the paper **"DreamUHD: Frequency Enhanced Variational Autoencoder for Ultra-High-Definition Image Restoration"**.
 

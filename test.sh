@@ -68,14 +68,14 @@
 
 
 
-python /fs-computility/ai4sData/liuyidi/code/DreamUHD/inference.py \
---config /fs-computility/ai4sData/liuyidi/code/DreamUHD/options/DreamUHD_LL.yml \
+python /fs-computility/ai4sData/liuyidi/code/dreamUHD/inference.py \
+--config /fs-computility/ai4sData/liuyidi/code/dreamUHD/options/DreamUHD_LL.yml \
 --input /fs-computility/ai4sData/liuyidi/data/UHD_LL/test/input \
---weight /fs-computility/ai4sData/liuyidi/code/DreamUHD/weight/DreamUHD_lowlight2.pth \
---output /fs-computility/ai4sData/liuyidi/code/DreamUHD/exp/LL2
+--weight /fs-computility/ai4sData/liuyidi/code/dreamUHD/weight/DreamUHD_lowlight.pth \
+--output /fs-computility/ai4sData/liuyidi/code/dreamUHD/exp/LL2_818
 
 
 python calculate_psnr_ssim.py \
 --gt_path /fs-computility/ai4sData/liuyidi/data/UHD_LL/test/gt \
 --test_log /test2.log \
---results_path /fs-computility/ai4sData/liuyidi/code/DreamUHD/exp/LL2
+--results_path /fs-computility/ai4sData/liuyidi/code/dreamUHD/exp/LL2_818
