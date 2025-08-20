@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import sys 
 sys.path.append("/code/UHDformer-main")
-from basicsr.archs.VAE_arch import AutoencoderKL
 import time
 import yaml
 from basicsr.utils.vae_util import instantiate_from_config
@@ -17,7 +16,7 @@ from einops import rearrange
 from basicsr.archs.Fourier_Upsampling import freup_Areadinterpolation,freup_AreadinterpolationV2,freup_Cornerdinterpolation,freup_Periodicpadding
 from basicsr.archs.wtconv.util import wavelet
 
-from basicsr.archs.Resblock.Res_four import Res_four,Res_four2,Res_four3,Res_four4,Res_four5,Res_four6,Res_four7,Res_four8,Res_four9,Res_four10,Res_four11
+from basicsr.archs.Resblock.Res_four import FEblock,FEblock2
 
 import numbers
 import numpy as np  

@@ -24,7 +24,7 @@ from basicsr.utils.modules.attention import LinearAttention
 from basicsr.archs.fourmer import ProcessBlock
 from basicsr.archs.restormer import TransformerBlock
 
-from basicsr.archs.Resblock.Res_four import Res_four,Res_four2,Res_four3,Res_four4,Res_four5,Res_four6,Res_four7,Res_four8,Res_four9,Res_four10,Res_four11,Res_four12
+from basicsr.archs.Resblock.Res_four import FEblock,FEblock2
    
 
 from basicsr.utils.registry import ARCH_REGISTRY

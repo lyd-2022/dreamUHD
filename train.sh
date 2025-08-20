@@ -30,7 +30,7 @@ WEIGHT_PATH="$COMMON_PATH/models/net_g_latest.pth"
 OUTPUT_PATH="$COMMON_PATH/result"
 
 # # 训练命令
-$PYTHON_PATH/basicsr/train2.py -opt $CONFIG_PATH 
+$PYTHON_PATH/basicsr/train.py -opt $CONFIG_PATH 
 # $PYTHON_PATH/basicsr/train_pgt.py -opt $CONFIG_PATH 
 
 # # # 推理命令

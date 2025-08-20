@@ -1,0 +1,179 @@
+# GENERATE TIME: Sun Aug 11 16:09:01 2024
+# CMD:
+# /code/UHDformer-main/basicsr/train.py -opt /code/UHDformer-main/options/debulr/dwt_bulr4_tune2.yml
+
+# general settings
+# name: try1
+name: dwt|resfour9|36|4deblur5|240K|tune1.8|120K|2.2
+# name: try
+# name: debug
+model_type: FeMaSRModel
+scale: &upscale 1
+num_gpu: 1 # set num_gpu: 0 for cpu mode
+manual_seed: 0
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: General_Image_Train
+    type: PairedImageDataset
+    dataroot_gt: /data/liuyidi/nitre_2023_dehaze/data_dehaze/UHD_deblur/train/gt_new
+    dataroot_lq: /data/liuyidi/nitre_2023_dehaze/data_dehaze/UHD_deblur/train/input_new
+    io_backend:
+      type: disk
+
+    gt_size: 1024
+    use_resize_crop: False
+    use_flip: False
+    use_rot: False
+
+    # data loader
+    use_shuffle: true
+    geometric_augs: True
+    batch_size_per_gpu: &bsz 1
+    num_worker_per_gpu: *bsz
+    dataset_enlarge_ratio: 1
+
+    prefetch_mode: cpu
+    num_prefetch_queue: *bsz
+
+  val:
+    name: General_Image_Valid
+    type: PairedImageDataset
+    dataroot_gt: /data/liuyidi/nitre_2023_dehaze/data_dehaze/UHD_deblur/test/test_crop/gt
+    dataroot_lq: /data/liuyidi/nitre_2023_dehaze/data_dehaze/UHD_deblur/test/test_crop/input
+    gt_size: 0
+    io_backend:
+      type: disk
+    geometric_augs: True
+    use_resize_crop: False
+    use_flip: False
+    use_rot: False
+
+# network structures
+network_g:
+  type: dwt_kl8_7_3_3m
+
+#  channel_query_dict: {8: 256, 16: 256, 32: 256, 64: 128, 128: 64, 256: 32, 512: 32,}
+  dim: 24
+  mid_dim: 36
+  dwt_dim: 3
+  n_blocks: 8
+  ffn_scale: 2.0
+  upscaling_factor: 8
+  num_heads: 3
+  vae_weight: /data/liuyidi/nitre_2023_dehaze/data_dehaze/uhdformer/experiments/resfour9|bulr/models/net_g_latest.pth
+  param_key: 'params_ema'
+  config: /data/liuyidi/nitre_2023_dehaze/data_dehaze/uhdformer/experiments/resfour9|bulr/8_16_res.yml
+  sample: True
+  # vae_weight: ~
+
+network_d:
+  type: UNetDiscriminatorSN
+  num_in_ch: 3
+  
+
+# path
+path:
+  pretrain_network_hq: ~
+  pretrain_network_g: /data/liuyidi/nitre_2023_dehaze/data_dehaze/uhdformer/experiments/dwt|resfour9|36|4deblur5|240K|tune1.8|120K/models/net_g_latest.pth
+  pretrain_network_d: ~
+  strict_load: false
+#  resume_state: /data_8T1/wangcong/AAAI24/521-UHDformerDehaze/experiments/014_FeMaSR_LQ_stage/training_states/390000.state
+  resume_state: ~ 
+
+
+# training settings
+train:
+  ema_decay: 0.9
+  optim_g:
+    type: AdamW
+    lr: !!float 2e-4
+    weight_decay: !!float 1e-3
+    betas: [0.9, 0.99]
+  optim_d:
+    type: Adam
+    lr: !!float 8e-4
+    weight_decay: 0
+    betas: [0.9, 0.99]
+
+  scheduler:
+    type: CosineAnnealingRestartCyclicLR
+    periods: [1000, 60000]
+    restart_weights: [1, 1]
+    eta_mins: [0.0002, 0.0000001]
+
+  total_iter: 61000
+  warmup_iter: -1  # no warm up
+
+  # losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1.0 
+    reduction: mean
+  pixel_ssim_opt:
+    loss_weight: !!float 0.25
+
+  fft_opt:
+    type: FFTLoss
+    loss_weight: !!float 0.1
+
+
+  perceptual_opt:
+    type: LPIPSLoss
+    loss_weight: !!float 0
+    
+  gan_opt:
+    type: GANLoss
+    gan_type: hinge
+    real_label_val: 1.0
+    fake_label_val: 0.0
+    loss_weight: 0
+
+  codebook_opt:
+    loss_weight: 0
+  
+  semantic_opt:
+    loss_weight: 0
+
+  net_d_iters: 0
+  net_d_init_iters: !!float 0 
+
+# validation settings·
+val:
+  val_freq: !!float 3e3
+  save_img: False
+
+  key_metric: ssim
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: psnr 
+      crop_border: 4
+      test_y_channel: true
+    ssim:
+      type: ssim 
+      crop_border: 4
+      test_y_channel: true
+    # lpips:
+    #   type: lpips 
+    #   better: lower
+
+# logging settings
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 1e9
+  save_latest_freq: !!float 3e3
+  show_tf_imgs_freq: !!float 5000
+  use_tb_logger: true
+  wandb:
+    project: dwt_vae
+    resume_id: ~
+
+# wandb:
+    # project: ESRGAN
+    # resume_id: ~
+
+dist_params:
+  backend: nccl
+  port: 16500 #29500
+find_unused_parameters: true

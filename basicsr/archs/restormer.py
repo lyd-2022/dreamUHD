@@ -512,7 +512,7 @@ if __name__ == '__main__':
     # print(out.shape)
     from thop import profile
     from thop import clever_format
-    input = torch.randn(1,3,256,256)
+    input = torch.randn(1,3,1024,1024)
 
 
     # clean = torch.randn(1,3,256,256)

@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import sys 
 sys.path.append("/mnt/petrelfs/liuyidi/Code/dreamUHD")
-from basicsr.archs.VAE_arch import AutoencoderKL
 import time
 import yaml
 from basicsr.utils.vae_util import instantiate_from_config
@@ -16,7 +15,7 @@ from basicsr.archs.wtconv import WTConv2d
 from einops import rearrange
 from basicsr.archs.Fourier_Upsampling import freup_Areadinterpolation,freup_AreadinterpolationV2,freup_Cornerdinterpolation,freup_Periodicpadding
 from basicsr.archs.wtconv.util import wavelet
-from basicsr.archs.Resblock.Res_four import FEblock
+from basicsr.archs.Resblock.Res_four import FEblock,FEblock2
 
 import numbers
 import numpy as np  
@@ -54,7 +53,7 @@ class fresadd(nn.Module):
         return xn
 
 def make_res(in_channels, out_channels,temb_channels,dropout, res_type="vanilla"):
-    assert res_type in ["vanilla", "FE-block","none"], f'res_type {res_type} unknown'
+    assert res_type in ["vanilla","FE-block","FE-block2"], f'res_type {res_type} unknown'
     print(f"making res of type '{res_type}' with {in_channels} in_channels")
     if res_type == "vanilla":
         return ResnetBlock(in_channels=in_channels,
@@ -66,6 +65,10 @@ def make_res(in_channels, out_channels,temb_channels,dropout, res_type="vanilla"
         return FEblock(in_channels=in_channels,
                                          out_channels=out_channels,
                                          dropout=dropout)
+    elif res_type == "FE-block2":
+        return FEblock2(in_channels=in_channels,
+                                            out_channels=out_channels,
+                                            dropout=dropout)
 
     else:
         return nn.Identity(in_channels)
@@ -304,7 +307,7 @@ class ResBlock(nn.Module):
 
 @ARCH_REGISTRY.register()
 class DreamUHD(nn.Module):
-    def __init__(self, dim, n_blocks=8, ffn_scale=2.0, upscaling_factor=4,vae_weight=None,config=None,sample= True,dwt_dim = 16,num_heads=3,param_key = 'params',out_dim= 64):
+    def __init__(self, dim, n_blocks=8, ffn_scale=2.0, upscaling_factor=4,vae_weight=None,config=None,sample= True,dwt_dim = 16,num_heads=3,param_key = 'params',shuffle=False,out_dim= 64,mid_dim =24):
         super().__init__()
         with open(config) as f:
             # config = yaml.load(f, Loader=yaml.FullLoader)
@@ -332,14 +335,23 @@ class DreamUHD(nn.Module):
             print(f"adapter num is {a}")
             assert len(msg.missing_keys) == a
 
-        self.feats = nn.Sequential(*[AttBlock(dim, ffn_scale) for _ in range(n_blocks)])
+        
         self.rec_block = nn.Sequential(WTConv2d(3, 3, kernel_size=5, stride=1, bias=True, wt_levels=3, wt_type='db1'),
                                        nn.Conv2d(3, 16, 1, 1, 0),
                                        nn.Conv2d(16, 3, 1, 1, 0),
                                        WTConv2d(3, 3, kernel_size=5, stride=1, bias=True, wt_levels=3, wt_type='db1')
                                        )
-        
-
+        self.shuffle = shuffle
+        if self.shuffle:
+            self.merge2 =  nn.Sequential( 
+                nn.Conv2d(mid_dim, out_dim-dim, 3, 1, 1),
+            )
+            self.merge1 =  nn.Sequential(  
+                nn.Conv2d(out_dim, mid_dim, 3, 1, 1),
+            )  
+            self.feats = nn.Sequential(*[AttBlock(mid_dim, ffn_scale) for _ in range(n_blocks)])          
+        else:
+            self.feats = nn.Sequential(*[AttBlock(dim, ffn_scale) for _ in range(n_blocks)])
     def forward(self, input):
         x,add,high_list = self.vae.encode(input)
         posterior = DiagonalGaussianDistribution(x)
