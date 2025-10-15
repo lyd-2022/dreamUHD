@@ -1,5 +1,5 @@
 # DreamUHD: Frequency Enhanced Variational Autoencoder for Ultra-High-Definition Image Restoration
-
+1
 ## Introduction
 This repository provides the official implementation for the paper, "DreamUHD: Frequency Enhanced Variational Autoencoder for Ultra-High-Definition Image Restoration."  DreamUHD is a novel framework designed to address the challenges inherent in Ultra-High-Definition (UHD) image restoration. By leveraging the powerful latent space representation and reconstruction capabilities of Variational Autoencoders (VAEs) and integrating frequency priors, our method effectively restores high-quality UHD images while maintaining computational efficiency. 
 
